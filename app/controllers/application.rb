@@ -112,6 +112,18 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+  post '/login' do
+    user = User.find_by(email: params[:email])
+
+    if user && user.authenticate(params[:password])
+      session[:id] = user.id
+      { message: 'Logged in successfully',id: user.id }.to_json
+    else
+      status 401 # Unauthorized
+      { message: 'Invalid email or password' }.to_json
+    end
+  end
+
   # defining an update path for updating the password of individual users
   patch '/users/:id' do
     user = User.find(params[:id])
