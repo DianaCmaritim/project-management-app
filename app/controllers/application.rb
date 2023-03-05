@@ -83,16 +83,33 @@ class ApplicationController < Sinatra::Base
     user.to_json
   end
 
-  # defining a post path for adding a new user
+  require 'sinatra'
+  require 'sinatra/activerecord'
+
+  # define the User model
+  class User < ActiveRecord::Base
+    validates :name, presence: true
+    validates :email, presence: true, uniqueness: true
+    validates :password, presence: true
+  end
+
+  # set up the database connection
+  set :database, { adapter: 'sqlite3', database: 'users.sqlite3' }
+
+  # define the POST /users endpoint
   post '/users' do
-    user = User.create(
-      name: params[:name],
-      email: params[:email],
-      password: params[:password],
-      created_at: params[:created_at],
-      updated_at: params[:updated_at]
-    )
-    user.to_json
+    # parse the JSON request body into a Ruby hash
+    user_data = JSON.parse(request.body.read)
+
+    # create a new user object with the parsed data
+    user = User.new(name: user_data['name'], email: user_data['email'], password: user_data['password'])
+
+    # save the user to the database
+    if user.save
+      user.to_json
+    else
+      halt 422, { message: user.errors.full_messages.join(', ') }.to_json
+    end
   end
 
   # defining an update path for updating the password of individual users
