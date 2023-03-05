@@ -1,23 +1,27 @@
 puts "🌱 Seeding spices..."
 
-    #iterate 6 times to genderate projects
+    #iterate 6 times to generate projects
 
-    10.times do
+    20.times do
         project = Project.create(
             title: Faker::Company.name,
+            description: Faker::Lorem.paragraph,
             goals: Faker::Lorem.sentence,
             timeframe: Faker::Time.forward(days: 30),
             status: ['inprogress', 'completed', 'onhold'].sample,
-            timestamps: Time.now
+            timestamps: Time.now,
+            image_url: Faker::Internet.url(scheme: 'https', host: 'example.com', path: '/image', query: 'size=medium')
+
 
         )
     end
 
         # iterate 10 times to generate users
-        10.times do
+        50.times do
             user = User.create(
                 name: Faker::Name.name,
                 username: Faker::Internet.username,
+                email: Faker::Internet.email,
                 password: Faker::Internet.password
             )
         end
@@ -27,7 +31,7 @@ puts "🌱 Seeding spices..."
 
         #iterate to generate 20 random members
 
-        20.times do
+        50.times do
             member = Member.create(
                 name: Faker::Name.name,
                 user_id: rand(1..8),
