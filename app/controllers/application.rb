@@ -112,18 +112,85 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  post '/login' do
-    user = User.find_by(email: params[:email])
+  # post '/login' do
+  #   user = User.find_by(email: params[:email])
 
-    if user && user.authenticate(params[:password])
-      session[:id] = user.id
-      { message: 'Logged in successfully',id: user.id }.to_json
-    else
-      status 401 # Unauthorized
-      { message: 'Invalid email or password' }.to_json
-    end
+  #   if user && user.authenticate(params[:password])
+  #     session[:user_id] = user.id
+  #     { message: 'Logged in successfully', user_id: user.id }.to_json
+  #   else
+  #     status 401 # Unauthorized
+  #     { message: 'Invalid email or password' }.to_json
+  #   end.then
+  # end
+  # post '/login' do
+  #   user = User.find_by(email: params[:email])
+
+  #   if user && user.authenticate(params[:password])
+  #     session[:id] = user.id
+  #     { message: 'Logged in successfully',id: user.id }.to_json
+  #   else
+  #     status 401 # Unauthorized
+  #     { message: 'Invalid email or password' }.to_json
+  #   end
+  # end
+
+  # post '/login' do
+  #   user = User.find_by(name: params[:name])
+
+  #   if user && user.password = params[:password]
+  #     session[:id] = user.id
+  #     { message: 'Logged in successfully', id: user.id }.to_json
+  #   else
+  #     status 401 # Unauthorized
+  #     { message: 'Invalid name or password' }.to_json
+  #   end
+  # end
+#   require 'sinatra'
+# require 'sinatra/activerecord'
+
+# set :database, { adapter: 'sqlite3', database: 'users.sqlite3' }
+
+# class User < ActiveRecord::Base
+# end
+
+# post '/users' do
+#   user = User.find_by(email: params[:email])
+
+#   if user && user.authenticate(params[:password])
+#     session[:id] = user.id
+#     { message: 'Logged in successfully', id: user.id }.to_json
+#   else
+#     status 401 # Unauthorized
+#     { message: 'Invalid email or password' }.to_json
+#   end
+# end
+require 'sinatra'
+require 'sinatra/activerecord'
+
+# define the User model
+class User < ActiveRecord::Base
+  validates :email, presence: true
+  validates :password, presence: true
+end
+
+# set up the database connection
+set :database, { adapter: 'sqlite3', database: 'users.sqlite3' }
+
+# define the POST /login endpoint
+post '/login' do
+  # parse the JSON request body into a Ruby hash
+  login_data = JSON.parse(request.body.read)
+
+  # find the user with the given email and password
+  user = User.find_by(email: login_data['email'], password: login_data['password'])
+
+  if user
+    user.to_json
+  else
+    halt 422, { message: 'Invalid email or password' }.to_json
   end
-
+end
   # defining an update path for updating the password of individual users
   patch '/users/:id' do
     user = User.find(params[:id])
@@ -133,3 +200,4 @@ class ApplicationController < Sinatra::Base
     user.to_json
   end
 end
+
