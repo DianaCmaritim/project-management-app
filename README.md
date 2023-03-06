@@ -7,9 +7,9 @@ This full-stack web application uses React for the frontend and a backend API bu
 
 The app allows users to create, read, update, and delete projects Users can also assign tasks to team members and track progress through an intuitive interface.
 
-The api runs on a localhost server;
+The server is deployed and is live on;
 
-        http://localhost:9292
+        https://prt-mngt-backend.onrender.com/
 
 and a path is provided to display the db data.
 
@@ -50,6 +50,7 @@ and a path is provided to display the db data.
 - React<br>
 - SQL<br>
 - Git<br>
+- Render for deploying the server
 
 ## Running the application
 
@@ -62,7 +63,6 @@ Use the following steps to run the app.
 - Run the application on the terminal with the following command to open the server;
 
       rackup
-- Always ensure that the server is live before running the frontend
 
 ## Domain Model
 We have three models: User, Member, and Project.
