@@ -7,6 +7,14 @@ This full-stack web application uses React for the frontend and a backend API bu
 
 The app allows users to create, read, update, and delete projects Users can also assign tasks to team members and track progress through an intuitive interface.
 
+The api runs on a localhost server;
+
+        http://localhost:9292
+
+and a path is provided to display the db data.
+
+
+
 ## Project Setup
 ### Step One
 
