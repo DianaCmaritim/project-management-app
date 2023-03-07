@@ -14,6 +14,15 @@ The server is deployed and is live on;
 and a path is provided to display the db data.
 
 
+## Frontend link
+The link to the front end is;
+     https://github.com/DianaCmaritim/pma-frontend
+
+This app has been deployed and can be opened in the browser using the following url;
+
+https://pma-frontend-phi.vercel.app/
+
+
 
 ## Project Setup
 ### Step One
